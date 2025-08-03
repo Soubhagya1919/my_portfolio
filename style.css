@@ -2007,3 +2007,38 @@ section {
     margin-bottom: 1.5rem;
   }
 }
+
+.about__intro {
+  border-left: 4px solid var(--color-primary);
+  padding-left: 1rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+  font-size: var(--font-size-lg);
+  position: relative;
+  background: rgba(var(--color-primary-rgb), 0.02);
+  transition: background 0.3s ease;
+}
+
+.about__intro:hover {
+  background: rgba(var(--color-primary-rgb), 0.08);
+}
+
+.highlight {
+  color: var(--color-text);
+  font-weight: var(--font-weight-semibold);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    var(--color-primary-hover)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@media (max-width: 768px) {
+  .about__intro {
+    font-size: var(--font-size-base);
+  }
+}
