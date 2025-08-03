@@ -19,9 +19,59 @@ document.addEventListener("DOMContentLoaded", function () {
     setupNavigation();
     setupScrollEffects();
     setupContactForm();
+    setupTimelineAnimation();
     setupAnimations();
     updateActiveNavLink();
     console.log("Soubhagya Mohapatra Portfolio initialized successfully!");
+  }
+
+  function setupTimelineAnimation() {
+    const timeline = document.querySelector(".timeline");
+    const items = document.querySelectorAll(".timeline__item");
+    if (!timeline || !items.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const marker = entry.target.querySelector(".timeline__marker");
+          const content = entry.target.querySelector(".timeline__content");
+
+          if (entry.isIntersecting) {
+            marker?.classList.add("animate");
+            content?.classList.add("animate");
+          } else {
+            marker?.classList.remove("animate");
+            content?.classList.remove("animate");
+          }
+        });
+
+        // Determine the bottom offset of the last visible marker
+        let lastVisibleY = 0;
+        items.forEach((item) => {
+          const marker = item.querySelector(".timeline__marker.animate");
+          if (marker) {
+            // marker.getBoundingClientRect().top relative to timeline container
+            const rect = marker.getBoundingClientRect();
+            const containerRect = timeline.getBoundingClientRect();
+            lastVisibleY = Math.max(
+              lastVisibleY,
+              rect.top - containerRect.top + marker.offsetHeight
+            );
+          }
+        });
+
+        // Compute bottom offset: container height minus lastVisibleY
+        const containerHeight = timeline.getBoundingClientRect().height;
+        const bottomOffset = containerHeight - lastVisibleY;
+        timeline.style.setProperty("--line-bottom", `${bottomOffset}px`);
+      },
+      {
+        threshold: 0.2,
+        rootMargin: "0px 0px -50px 0px",
+      }
+    );
+
+    items.forEach((item) => observer.observe(item));
   }
 
   // Navigation Setup - Fixed
